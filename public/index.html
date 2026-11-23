@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>频带补全实验台</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <strong>频带补全实验台</strong>
+      <span class="sub">受约束时频重建 · 观测区固定 · 缺口为估计</span>
+    </div>
+    <div class="top-actions">
+      <span id="status-dot" class="dot idle" title="内核状态"></span>
+      <span id="status-text" class="status-text">就绪</span>
+      <button id="undo-btn" class="ghost" disabled>撤销补全</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel controls">
+      <div class="row">
+        <label>演示素材
+          <select id="fixture-select"></select>
+        </label>
+        <label class="file-label">载入 WAV
+          <input id="wav-input" type="file" accept=".wav,audio/wav" />
+        </label>
+      </div>
+      <p id="fixture-desc" class="hint"></p>
+      <div class="row">
+        <label>FFT <select id="fft-size"><option>1024</option><option>2048</option><option>512</option></select></label>
+        <label>Hop <select id="hop-size"><option>256</option><option>512</option><option>128</option></select></label>
+        <label>最大缺口 <input id="max-gap" type="number" min="20" max="500" step="10" value="200" /> ms</label>
+        <label>最大带宽 <input id="max-hz" type="number" min="100" max="8000" step="50" value="1500" /> Hz</label>
+        <label>已知区容差 <input id="tol-db" type="number" min="-80" max="-10" step="1" value="-30" /> dB</label>
+      </div>
+      <div class="row">
+        <button id="complete-btn" class="primary" disabled>补全所选区域</button>
+        <button id="clear-sel" class="ghost">清除选区</button>
+        <span id="sel-info" class="hint">在频谱上拖拽框选缺失区</span>
+      </div>
+      <details class="limits">
+        <summary>模型支持范围与语义</summary>
+        <ul>
+          <li>只处理有限宽度/长度的缺口；超出上限会拒绝并说明原因，不复制邻近频带。</li>
+          <li>缺口内所有内容都是候选估计；界面不会把估计写成“已恢复的原始事实”。</li>
+          <li>已知区（观测区）在重建时被固定；补全后给出改动审计。</li>
+          <li>左右两侧证据相斥时给出候选与置信边界，而不是强制唯一答案。</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="panel spectrogram-panel">
+      <div class="panel-head">
+        <h2>频谱编辑</h2>
+        <div class="legend">
+          <span><i class="sw obs"></i>观测</span>
+          <span><i class="sw mask"></i>缺损掩码</span>
+          <span><i class="sw fill"></i>补全候选</span>
+          <span><i class="sw lowconf"></i>低置信</span>
+        </div>
+        <label class="toggle"><input id="show-mask" type="checkbox" checked /> 掩码</label>
+        <label class="toggle"><input id="show-fill" type="checkbox" checked /> 候选叠加</label>
+      </div>
+      <div class="canvas-wrap" id="canvas-wrap">
+        <canvas id="spec-canvas" width="1024" height="420"></canvas>
+        <div id="freq-axis" class="freq-axis" aria-hidden="true"></div>
+        <div id="sel-rect" class="sel-rect hidden"></div>
+        <div id="tooltip" class="tooltip hidden"></div>
+      </div>
+      <div class="axis-row"><span id="axis-left"></span><span id="axis-right"></span><span id="axis-note" class="axis-note"></span></div>
+      <p class="hint" id="canvas-hint">拖拽框选时间 × 频率区域；松开即建立候选掩码区域。纵轴为频率（顶部 Nyquist，底部 0 Hz）。</p>
+    </section>
+
+    <section class="panel result-panel">
+      <div class="panel-head">
+        <h2>结果与候选</h2>
+        <span id="report-badge" class="badge">未运行</span>
+      </div>
+      <div id="report-summary" class="report-summary empty">
+        运行补全后，这里会显示状态、候选假设、置信边界与一致性审计。
+      </div>
+      <div id="candidate-list" class="candidate-list"></div>
+      <div id="hypotheses" class="hypotheses"></div>
+      <div id="audit-block" class="audit-block"></div>
+      <div id="eval-block" class="eval-block hidden">
+        <h3>留出真值评估 <span class="small">算法输入未包含此真值轨</span></h3>
+        <div id="eval-content"></div>
+      </div>
+    </section>
+
+    <section class="panel audio-panel">
+      <div class="panel-head"><h2>音频对照</h2><span class="hint">原件与补全结果并排，便于 A/B</span></div>
+      <div class="audio-grid">
+        <div>
+          <h3>原缺损录音 <span class="small">未改动</span></h3>
+          <audio id="audio-defect" controls></audio>
+          <button id="play-defect" class="ghost small">从选区播放</button>
+        </div>
+        <div>
+          <h3>补全后 <span class="small">含算法估计</span></h3>
+          <audio id="audio-result" controls></audio>
+          <button id="play-result" class="ghost small">从选区播放</button>
+          <button id="download-result" class="ghost small" disabled>下载 WAV</button>
+        </div>
+      </div>
+      <div class="ab-row">
+        <button id="ab-toggle" class="ghost" disabled>A/B 循环播放选区</button>
+        <span id="ab-state" class="hint"></span>
+      </div>
+    </section>
+
+    <section class="panel fixture-eval">
+      <div class="panel-head"><h2>合成真值自检</h2></div>
+      <p class="hint">对完整合成音频人为抹去频带，再运行补全；检查补全部分误差、已知区变化与整体伪影。真值只进入评估，不进入优化。</p>
+      <button id="run-matrix" class="primary">运行全部素材自检</button>
+      <div id="matrix-output" class="matrix-output"></div>
+    </section>
+  </main>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "band-completion-bench",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Constrained time-frequency band completion bench with explicit masks, hypotheses, and held-out truth evaluation",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/*.test.js",
+    "bench": "node bench/run-bench.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.65.1"
+  }
+}
