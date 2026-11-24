@@ -119,6 +119,32 @@
       <button id="run-matrix" class="primary">运行全部素材自检</button>
       <div id="matrix-output" class="matrix-output"></div>
     </section>
+
+    <section class="panel trust-panel">
+      <div class="panel-head">
+        <h2>可信区域验证</h2>
+        <span class="hint">独立 STFT 参照 · 不接触缺损前真值 · 不采信内核置信标签</span>
+      </div>
+      <p class="hint">同宽配对（谐波可辨 / 非谐不可辨）、宽度扫描与先验不满足素材；可注入受控故障，检查已知区误差、候选分歧与子带守恒是否如实暴露坏结果。</p>
+      <div class="row">
+        <label>验证素材
+          <select id="trust-select"></select>
+        </label>
+        <label>受控故障
+          <select id="trust-fault">
+            <option value="">干净运行（无故障）</option>
+            <option value="known-region-pollution">污染可信区</option>
+            <option value="false-confidence">错误自信标记</option>
+            <option value="wrong-fill">错误填充缺口</option>
+          </select>
+        </label>
+        <button id="trust-run" class="primary">运行可信验证</button>
+        <button id="trust-all" class="ghost">运行全部正反例</button>
+      </div>
+      <div id="trust-output" class="trust-output">
+        <p class="hint">选择素材与故障后点击运行；裁决、失败类型与独立证据会显示在这里。</p>
+      </div>
+    </section>
   </main>
 
   <script type="module" src="/app.js"></script>

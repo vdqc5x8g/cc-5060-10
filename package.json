@@ -7,7 +7,11 @@
   "scripts": {
     "start": "node server.js",
     "test": "node --test test/*.test.js",
-    "bench": "node bench/run-bench.js"
+    "bench": "node bench/run-bench.js",
+    "trust": "node bin/trust-check.js",
+    "trust:write-data": "node bin/trust-check.js --write-data",
+    "trust:verify-data": "node bin/trust-check.js --verify-data",
+    "e2e": "playwright test"
   },
   "engines": {
     "node": ">=20"

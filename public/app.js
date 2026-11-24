@@ -13,6 +13,7 @@ const state = {
   abFlip: false,
   drag: null,
   busy: false,
+  trustFixtures: [],
 };
 
 const $ = (id) => document.getElementById(id);
@@ -493,10 +494,11 @@ function renderReport(result) {
 function renderCandidates(region, result) {
   const list = $('candidate-list');
   list.innerHTML = '';
+  const wavById = new Map((result.candidateWavs ?? []).map((w) => [w.candidateId, w.wavBase64]));
+  const confClass = region.confidence?.level === 'low' ? 'low' : region.confidence?.level === 'high' ? 'chosen' : 'warn';
   for (const cand of region.candidates) {
     const el = document.createElement('div');
     el.className = `candidate ${cand.id === (state.selectedCandidate ?? region.selectedCandidate) ? 'selected' : ''}`;
-    const confClass = region.confidence?.level === 'low' ? 'low' : region.confidence?.level === 'high' ? 'chosen' : 'warn';
     el.innerHTML = `
       <div class="c-head">
         <span class="c-title">${escapeHtml(cand.label)}</span>
@@ -505,13 +507,29 @@ function renderCandidates(region, result) {
       <div class="c-desc">${escapeHtml(cand.description)}</div>
       <canvas width="220" height="90"></canvas>
       <div class="c-desc">${cand.quality ? `匹配轨迹 ${cand.quality.matchedTracks} · 覆盖 ${fmtPct(cand.quality.frameCoverage)} · 频率残差 ${cand.quality.medianFrequencyResidualBins.toFixed(2)} bin` : ''}</div>
+      <button class="ghost small cand-ab">对照播放该候选音频</button>
     `;
     el.addEventListener('click', () => {
       state.selectedCandidate = cand.id;
       state.result = { ...result, selectedOverride: cand };
-      $('audio-result').src = wavDataUrl(result.audioWav);
+      // The A/B audio must follow the selected candidate. Each candidate WAV is
+      // a separate constrained reconstruction from that candidate's own target
+      // grid; falling back to the default clip would be a fake comparison.
+      const wav = wavById.get(cand.id);
+      if (wav) $('audio-result').src = wavDataUrl(wav);
+      else $('audio-result').src = wavDataUrl(result.audioWav);
       renderReport(result);
       draw();
+    });
+    el.querySelector('.cand-ab').addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      const wav = wavById.get(cand.id);
+      if (wav) {
+        $('audio-result').src = wavDataUrl(wav);
+        state.selectedCandidate = cand.id;
+        renderReport(result);
+      }
+      playRegion('result');
     });
     list.appendChild(el);
     drawCandidatePreview(el.querySelector('canvas'), cand.grid);
@@ -781,4 +799,111 @@ $('download-result').addEventListener('click', () => {
 });
 window.addEventListener('resize', () => { if (state.spec) { updateSpectrogramSource(state.spec); draw(); } });
 
+// Trusted-region verification panel ----------------------------------------
+async function loadTrustList() {
+  const data = await api('/api/trust/fixtures');
+  state.trustFixtures = data.fixtures;
+  const sel = $('trust-select');
+  sel.innerHTML = '';
+  for (const fx of data.fixtures) {
+    const opt = document.createElement('option');
+    opt.value = fx.id;
+    const label = fx.identifiability === 'refused' ? '应拒答'
+      : fx.identifiability === 'unidentifiable' ? '不可辨' : '可辨';
+    opt.textContent = `${fx.title}（${label}）`;
+    sel.appendChild(opt);
+  }
+}
+
+function trustEvidenceRows(out) {
+  if (out.refused) {
+    return `<div class="trust-check ${out.outputUntouched ? 'good' : 'bad'}">拒答后录音${out.outputUntouched ? '保持原样（零改动）' : '被改动（违规）'}</div>`;
+  }
+  const m = out.measurements ?? {};
+  const checks = (out.verdict?.checks ?? []).map((c) => `
+    <div class="trust-check ${c.pass ? 'good' : 'bad'}">
+      <strong>${escapeHtml(c.name)}</strong>：${c.pass ? '通过' : '未通过'}
+      <span class="small">${escapeHtml(JSON.stringify(c.evidence ?? {}))}</span>
+    </div>`).join('');
+  const k = m.known ?? {};
+  const c = m.conservation ?? {};
+  const d = m.divergence ?? {};
+  const p = m.projection ?? {};
+  const f = m.fill ?? {};
+  return `
+    <div class="trust-evidence">
+      <div>已知区误差：池化 ${fmtDb(k.observedChangeDb)} · 窗外 ${fmtDb(k.outsideWindowChangeDb)} · 改动样本 ${k.changedSamples ?? '—'}</div>
+      <div>子带守恒：最差 ${fmtDb(c.worstConservationDb)}（${(c.compartments ?? []).map((x) => `${x.name} ${x.conservationDb}dB`).join('，')}）</div>
+      <div>补全一致性：残差 ${fmtDb(f.fillResidualDb)}</div>
+      <div>候选分歧：均值 ${d.meanDb ?? '—'} dB · 最大 ${d.maxDb ?? '—'} dB</div>
+      <div>投影下界：分歧 ${p.disagreementDb ?? '—'} dB · 下界 ${p.lowerBoundDb ?? '—'} dB · 不等式 ${p.boundHolds ? '成立' : '违反'}</div>
+      <div>掩码正交拆分误差：${m.orthogonality?.splitRelativeError ?? '—'}</div>
+    </div>
+    ${checks}`;
+}
+
+function renderTrustResult(out) {
+  const box = $('trust-output');
+  const passed = out.verdict?.passed;
+  const badge = passed ? '<span class="badge ok">验收通过</span>' : '<span class="badge err">验收失败</span>';
+  const codes = (out.verdict?.failureCodes ?? []);
+  box.innerHTML = `
+    <div class="trust-head">${badge}
+      <span class="hint">可辨性：${escapeHtml(out.identifiability)} · 内核状态：${escapeHtml(out.status)}${out.injectedFault ? ` · 注入故障：${escapeHtml(out.injectedFault)}` : ''}</span>
+    </div>
+    ${codes.length ? `<div class="bad">命名失败：${codes.map(escapeHtml).join('、')}</div>` : '<div class="good">无命名失败</div>'}
+    ${(out.verdict?.failures ?? []).map((fail) => `<div class="trust-failure">· ${escapeHtml(fail.message)}</div>`).join('')}
+    ${trustEvidenceRows(out)}
+    <p class="eval-note">${escapeHtml(out.verdict?.evidenceBasis ?? '')}</p>`;
+}
+
+async function runTrustOne(fault) {
+  const fixtureId = $('trust-select').value;
+  setStatus('busy', '运行可信验证…');
+  const out = await api('/api/trust/verify', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ fixtureId, fault: fault || null }),
+  });
+  renderTrustResult(out);
+  setStatus('ok', `可信验证完成：${out.verdict?.passed ? '通过' : '失败'}`);
+  return out;
+}
+
+async function runTrustAll() {
+  const box = $('trust-output');
+  box.innerHTML = '运行全部正反例与变异…';
+  setStatus('busy', '运行可信验证套件…');
+  const rows = [];
+  for (const fx of state.trustFixtures ?? []) {
+    const faults = fx.identifiability === 'refused' ? [null] : [null, 'known-region-pollution', 'false-confidence', 'wrong-fill'];
+    for (const fault of faults) {
+      try {
+        const out = await api('/api/trust/verify', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ fixtureId: fx.id, fault }),
+        });
+        rows.push({ id: fx.id, fault: fault ?? 'clean', passed: out.verdict.passed, codes: out.verdict.failureCodes });
+      } catch (err) {
+        rows.push({ id: fx.id, fault: fault ?? 'clean', error: err.message });
+      }
+    }
+  }
+  box.innerHTML = rows.map((r) => `
+    <div class="trust-row ${r.error ? 'bad' : r.passed ? 'good' : 'warn'}">
+      <span>${escapeHtml(r.id)} / ${escapeHtml(r.fault)}</span>
+      <strong>${r.error ? escapeHtml(r.error) : r.passed ? '通过' : `失败：${r.codes.join('、')}`}</strong>
+    </div>`).join('');
+  setStatus('ok', `可信验证套件完成：${rows.length} 条`);
+}
+
+$('trust-run')?.addEventListener('click', () => runTrustOne($('trust-fault').value).catch((err) => {
+  setStatus('error', `可信验证失败：${err.message}`);
+}));
+$('trust-all')?.addEventListener('click', () => runTrustAll().catch((err) => {
+  setStatus('error', `可信验证失败：${err.message}`);
+}));
+
 loadFixtureList().catch((err) => { console.error(err); setStatus('error', `初始化失败：${err.message}`); });
+loadTrustList().catch((err) => { console.error(err); });

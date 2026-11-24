@@ -1,0 +1,2547 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "bin/trust-check.js --write-data",
+  "note": "Acceptance expectations are derived from fixture identifiability and injected faults, never from measured output. Evidence values are independent STFT-only reference measurements.",
+  "thresholdsNote": "See ACCEPTANCE_THRESHOLDS in src/trust/acceptance.js",
+  "summary": {
+    "total": 22,
+    "passed": 7,
+    "failed": 15,
+    "failuresByCode": [
+      {
+        "fixtureId": "pairA-harmonic",
+        "code": "known-pollution",
+        "message": "known-pollution"
+      },
+      {
+        "fixtureId": "pairA-harmonic",
+        "code": "conservation-breach",
+        "message": "conservation-breach"
+      },
+      {
+        "fixtureId": "pairA-harmonic",
+        "code": "fill-inconsistency",
+        "message": "fill-inconsistency"
+      },
+      {
+        "fixtureId": "pairA-inharmonic",
+        "code": "false-confidence",
+        "message": "false-confidence"
+      },
+      {
+        "fixtureId": "pairA-inharmonic",
+        "code": "known-pollution",
+        "message": "known-pollution"
+      },
+      {
+        "fixtureId": "pairA-inharmonic",
+        "code": "conservation-breach",
+        "message": "conservation-breach"
+      },
+      {
+        "fixtureId": "pairA-inharmonic",
+        "code": "false-confidence",
+        "message": "false-confidence"
+      },
+      {
+        "fixtureId": "pairA-inharmonic",
+        "code": "false-confidence",
+        "message": "false-confidence"
+      },
+      {
+        "fixtureId": "pairA-inharmonic",
+        "code": "fill-inconsistency",
+        "message": "fill-inconsistency"
+      },
+      {
+        "fixtureId": "pairA-inharmonic",
+        "code": "false-confidence",
+        "message": "false-confidence"
+      },
+      {
+        "fixtureId": "width-harmonic-narrow",
+        "code": "known-pollution",
+        "message": "known-pollution"
+      },
+      {
+        "fixtureId": "width-harmonic-narrow",
+        "code": "conservation-breach",
+        "message": "conservation-breach"
+      },
+      {
+        "fixtureId": "width-harmonic-narrow",
+        "code": "fill-inconsistency",
+        "message": "fill-inconsistency"
+      },
+      {
+        "fixtureId": "width-inharmonic-narrow",
+        "code": "false-confidence",
+        "message": "false-confidence"
+      },
+      {
+        "fixtureId": "width-inharmonic-narrow",
+        "code": "known-pollution",
+        "message": "known-pollution"
+      },
+      {
+        "fixtureId": "width-inharmonic-narrow",
+        "code": "conservation-breach",
+        "message": "conservation-breach"
+      },
+      {
+        "fixtureId": "width-inharmonic-narrow",
+        "code": "false-confidence",
+        "message": "false-confidence"
+      },
+      {
+        "fixtureId": "width-inharmonic-narrow",
+        "code": "false-confidence",
+        "message": "false-confidence"
+      },
+      {
+        "fixtureId": "width-inharmonic-narrow",
+        "code": "fill-inconsistency",
+        "message": "fill-inconsistency"
+      },
+      {
+        "fixtureId": "width-inharmonic-narrow",
+        "code": "false-confidence",
+        "message": "false-confidence"
+      },
+      {
+        "fixtureId": "prior-mismatch-noise",
+        "code": "known-pollution",
+        "message": "known-pollution"
+      },
+      {
+        "fixtureId": "prior-mismatch-noise",
+        "code": "conservation-breach",
+        "message": "conservation-breach"
+      },
+      {
+        "fixtureId": "prior-mismatch-noise",
+        "code": "false-confidence",
+        "message": "false-confidence"
+      },
+      {
+        "fixtureId": "prior-mismatch-noise",
+        "code": "fill-inconsistency",
+        "message": "fill-inconsistency"
+      }
+    ],
+    "allPassed": false
+  },
+  "records": [
+    {
+      "fixtureId": "pairA-harmonic",
+      "pair": "equal-width",
+      "identifiability": "identifiable",
+      "injectedFault": null,
+      "expectation": {
+        "pass": true,
+        "failureCodes": []
+      },
+      "actual": {
+        "passed": true,
+        "failureCodes": [],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -43.92793534451754,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 1791
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -14.43
+        },
+        "divergence": {
+          "meanDb": -23.15,
+          "maxDb": -23.15,
+          "candidateCount": null
+        },
+        "projection": {
+          "disagreementDb": -6.93,
+          "lowerBoundDb": -12.95,
+          "periodicity": 0.9114,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 1.973e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -10.34,
+          "errBDb": -6.04,
+          "lowerBoundDb": -12.95,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -43.92793534451754,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 1791,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -14.43,
+            "toleranceDb": -8,
+            "targetPeak": 10.89
+          }
+        },
+        {
+          "name": "projection-lower-bound-scope",
+          "pass": true,
+          "evidence": {
+            "disagreementDb": -6.93,
+            "lowerBoundDb": -12.95,
+            "residuals": {
+              "linearFitDb": -9.53,
+              "periodicFitResidual": 0.1002,
+              "meanPeriodicity": 0.9
+            },
+            "boundHolds": true
+          }
+        },
+        {
+          "name": "identifiable-consistency",
+          "pass": true,
+          "evidence": {
+            "candidateCount": 2,
+            "meanDivergenceDb": -23.15
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "pairA-harmonic",
+      "pair": "equal-width",
+      "identifiability": "identifiable",
+      "injectedFault": "known-region-pollution",
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "known-pollution"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "known-pollution",
+          "conservation-breach"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -7.692422950145168,
+          "outsideWindowChangeDb": -7.47,
+          "changedSamples": 31093
+        },
+        "conservation": {
+          "worstConservationDb": -7.57,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -35.56
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -7.57
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -14.43
+        },
+        "divergence": {
+          "meanDb": -23.15,
+          "maxDb": -23.15,
+          "candidateCount": null
+        },
+        "projection": {
+          "disagreementDb": -6.93,
+          "lowerBoundDb": -12.95,
+          "periodicity": 0.9114,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 1.973e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -10.34,
+          "errBDb": -6.04,
+          "lowerBoundDb": -12.95,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": false,
+          "evidence": {
+            "observedChangeDb": -7.692422950145168,
+            "outsideWindowChangeDb": -7.47,
+            "changedSamples": 31093,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": false,
+          "evidence": {
+            "worstConservationDb": -7.57,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -35.56
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -7.57
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -14.43,
+            "toleranceDb": -8,
+            "targetPeak": 10.89
+          }
+        },
+        {
+          "name": "projection-lower-bound-scope",
+          "pass": true,
+          "evidence": {
+            "disagreementDb": -6.93,
+            "lowerBoundDb": -12.95,
+            "residuals": {
+              "linearFitDb": -9.53,
+              "periodicFitResidual": 0.1002,
+              "meanPeriodicity": 0.9
+            },
+            "boundHolds": true
+          }
+        },
+        {
+          "name": "identifiable-consistency",
+          "pass": true,
+          "evidence": {
+            "candidateCount": 2,
+            "meanDivergenceDb": -23.15
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "pairA-harmonic",
+      "pair": "equal-width",
+      "identifiability": "identifiable",
+      "injectedFault": "false-confidence",
+      "expectation": {
+        "pass": true,
+        "failureCodes": []
+      },
+      "actual": {
+        "passed": true,
+        "failureCodes": [],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -43.92793534451754,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 1791
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -14.43
+        },
+        "divergence": {
+          "meanDb": 0,
+          "maxDb": 0,
+          "candidateCount": null
+        },
+        "projection": {
+          "disagreementDb": -6.93,
+          "lowerBoundDb": -12.95,
+          "periodicity": 0.9114,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 1.973e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -10.34,
+          "errBDb": -6.04,
+          "lowerBoundDb": -12.95,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -43.92793534451754,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 1791,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -14.43,
+            "toleranceDb": -8,
+            "targetPeak": 10.89
+          }
+        },
+        {
+          "name": "projection-lower-bound-scope",
+          "pass": true,
+          "evidence": {
+            "disagreementDb": -6.93,
+            "lowerBoundDb": -12.95,
+            "residuals": {
+              "linearFitDb": -9.53,
+              "periodicFitResidual": 0.1002,
+              "meanPeriodicity": 0.9
+            },
+            "boundHolds": true
+          }
+        },
+        {
+          "name": "identifiable-consistency",
+          "pass": true,
+          "evidence": {
+            "candidateCount": 1,
+            "meanDivergenceDb": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "pairA-harmonic",
+      "pair": "equal-width",
+      "identifiability": "identifiable",
+      "injectedFault": "wrong-fill",
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "fill-inconsistency"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "fill-inconsistency"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -43.2054782639302,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 1791
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -3.01
+        },
+        "divergence": {
+          "meanDb": -23.15,
+          "maxDb": -23.15,
+          "candidateCount": null
+        },
+        "projection": {
+          "disagreementDb": -6.93,
+          "lowerBoundDb": -12.95,
+          "periodicity": 0.9114,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 1.973e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -10.34,
+          "errBDb": -6.04,
+          "lowerBoundDb": -12.95,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -43.2054782639302,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 1791,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": false,
+          "evidence": {
+            "fillResidualDb": -3.01,
+            "toleranceDb": -8,
+            "targetPeak": 10.89
+          }
+        },
+        {
+          "name": "projection-lower-bound-scope",
+          "pass": true,
+          "evidence": {
+            "disagreementDb": -6.93,
+            "lowerBoundDb": -12.95,
+            "residuals": {
+              "linearFitDb": -9.53,
+              "periodicFitResidual": 0.1002,
+              "meanPeriodicity": 0.9
+            },
+            "boundHolds": true
+          }
+        },
+        {
+          "name": "identifiable-consistency",
+          "pass": true,
+          "evidence": {
+            "candidateCount": 2,
+            "meanDivergenceDb": -23.15
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "pairA-inharmonic",
+      "pair": "equal-width",
+      "identifiability": "unidentifiable",
+      "injectedFault": null,
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "false-confidence"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "false-confidence"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -33.537833176009904,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 1790
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -10.88
+        },
+        "divergence": {
+          "meanDb": -1.66,
+          "maxDb": -1.66,
+          "candidateCount": 2
+        },
+        "projection": {
+          "disagreementDb": -4.47,
+          "lowerBoundDb": -10.49,
+          "periodicity": 0.7295,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 5.917e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -5.46,
+          "errBDb": -3.24,
+          "lowerBoundDb": -10.49,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -33.537833176009904,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 1790,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -10.88,
+            "toleranceDb": -8,
+            "targetPeak": 33.51
+          }
+        },
+        {
+          "name": "candidate-divergence",
+          "pass": true,
+          "evidence": {
+            "meanDivergenceDb": -1.66,
+            "maxDivergenceDb": -1.66,
+            "projectionDisagreementDb": -4.47,
+            "projectionLowerBoundDb": -10.49,
+            "candidateCount": 2,
+            "divergenceGateDb": -22
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "pairA-inharmonic",
+      "pair": "equal-width",
+      "identifiability": "unidentifiable",
+      "injectedFault": "known-region-pollution",
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "known-pollution"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "known-pollution",
+          "conservation-breach",
+          "false-confidence"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -12.390689778480708,
+          "outsideWindowChangeDb": -12.2,
+          "changedSamples": 31092
+        },
+        "conservation": {
+          "worstConservationDb": -10.45,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -43.07
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -10.45
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -10.88
+        },
+        "divergence": {
+          "meanDb": -1.66,
+          "maxDb": -1.66,
+          "candidateCount": 2
+        },
+        "projection": {
+          "disagreementDb": -4.47,
+          "lowerBoundDb": -10.49,
+          "periodicity": 0.7295,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 5.917e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -5.46,
+          "errBDb": -3.24,
+          "lowerBoundDb": -10.49,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": false,
+          "evidence": {
+            "observedChangeDb": -12.390689778480708,
+            "outsideWindowChangeDb": -12.2,
+            "changedSamples": 31092,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": false,
+          "evidence": {
+            "worstConservationDb": -10.45,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -43.07
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -10.45
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -10.88,
+            "toleranceDb": -8,
+            "targetPeak": 33.51
+          }
+        },
+        {
+          "name": "candidate-divergence",
+          "pass": true,
+          "evidence": {
+            "meanDivergenceDb": -1.66,
+            "maxDivergenceDb": -1.66,
+            "projectionDisagreementDb": -4.47,
+            "projectionLowerBoundDb": -10.49,
+            "candidateCount": 2,
+            "divergenceGateDb": -22
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "pairA-inharmonic",
+      "pair": "equal-width",
+      "identifiability": "unidentifiable",
+      "injectedFault": "false-confidence",
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "false-confidence"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "false-confidence"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -33.537833176009904,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 1790
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -10.88
+        },
+        "divergence": {
+          "meanDb": 0,
+          "maxDb": 0,
+          "candidateCount": 1
+        },
+        "projection": {
+          "disagreementDb": -4.47,
+          "lowerBoundDb": -10.49,
+          "periodicity": 0.7295,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 5.917e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -5.46,
+          "errBDb": -3.24,
+          "lowerBoundDb": -10.49,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -33.537833176009904,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 1790,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -10.88,
+            "toleranceDb": -8,
+            "targetPeak": 33.51
+          }
+        },
+        {
+          "name": "candidate-divergence",
+          "pass": true,
+          "evidence": {
+            "meanDivergenceDb": 0,
+            "maxDivergenceDb": 0,
+            "projectionDisagreementDb": -4.47,
+            "projectionLowerBoundDb": -10.49,
+            "candidateCount": 1,
+            "divergenceGateDb": -22
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "pairA-inharmonic",
+      "pair": "equal-width",
+      "identifiability": "unidentifiable",
+      "injectedFault": "wrong-fill",
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "fill-inconsistency"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "fill-inconsistency",
+          "false-confidence"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -32.63002054857432,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 1791
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -2.99
+        },
+        "divergence": {
+          "meanDb": -1.66,
+          "maxDb": -1.66,
+          "candidateCount": 2
+        },
+        "projection": {
+          "disagreementDb": -4.47,
+          "lowerBoundDb": -10.49,
+          "periodicity": 0.7295,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 5.917e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -5.46,
+          "errBDb": -3.24,
+          "lowerBoundDb": -10.49,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -32.63002054857432,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 1791,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": false,
+          "evidence": {
+            "fillResidualDb": -2.99,
+            "toleranceDb": -8,
+            "targetPeak": 33.51
+          }
+        },
+        {
+          "name": "candidate-divergence",
+          "pass": true,
+          "evidence": {
+            "meanDivergenceDb": -1.66,
+            "maxDivergenceDb": -1.66,
+            "projectionDisagreementDb": -4.47,
+            "projectionLowerBoundDb": -10.49,
+            "candidateCount": 2,
+            "divergenceGateDb": -22
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "width-harmonic-narrow",
+      "pair": "width-sweep-harmonic",
+      "identifiability": "identifiable",
+      "injectedFault": null,
+      "expectation": {
+        "pass": true,
+        "failureCodes": []
+      },
+      "actual": {
+        "passed": true,
+        "failureCodes": [],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -41.60152716655681,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 2303
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -20.89
+        },
+        "divergence": {
+          "meanDb": -25.25,
+          "maxDb": -25.25,
+          "candidateCount": null
+        },
+        "projection": {
+          "disagreementDb": -12.15,
+          "lowerBoundDb": -18.17,
+          "periodicity": 0.9971,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 4.928e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -26.9,
+          "errBDb": -11.54,
+          "lowerBoundDb": -18.17,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -41.60152716655681,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 2303,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -20.89,
+            "toleranceDb": -8,
+            "targetPeak": 17.97
+          }
+        },
+        {
+          "name": "projection-lower-bound-scope",
+          "pass": true,
+          "evidence": {
+            "disagreementDb": -12.15,
+            "lowerBoundDb": -18.17,
+            "residuals": {
+              "linearFitDb": -8.67,
+              "periodicFitResidual": 0.004,
+              "meanPeriodicity": 0.9963
+            },
+            "boundHolds": true
+          }
+        },
+        {
+          "name": "identifiable-consistency",
+          "pass": true,
+          "evidence": {
+            "candidateCount": 2,
+            "meanDivergenceDb": -25.25
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "width-harmonic-narrow",
+      "pair": "width-sweep-harmonic",
+      "identifiability": "identifiable",
+      "injectedFault": "known-region-pollution",
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "known-pollution"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "known-pollution",
+          "conservation-breach"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -6.242308335857556,
+          "outsideWindowChangeDb": -5.97,
+          "changedSamples": 31093
+        },
+        "conservation": {
+          "worstConservationDb": -5.72,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -28.23
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -5.72
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -20.89
+        },
+        "divergence": {
+          "meanDb": -25.25,
+          "maxDb": -25.25,
+          "candidateCount": null
+        },
+        "projection": {
+          "disagreementDb": -12.15,
+          "lowerBoundDb": -18.17,
+          "periodicity": 0.9971,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 4.928e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -26.9,
+          "errBDb": -11.54,
+          "lowerBoundDb": -18.17,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": false,
+          "evidence": {
+            "observedChangeDb": -6.242308335857556,
+            "outsideWindowChangeDb": -5.97,
+            "changedSamples": 31093,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": false,
+          "evidence": {
+            "worstConservationDb": -5.72,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -28.23
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -5.72
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -20.89,
+            "toleranceDb": -8,
+            "targetPeak": 17.97
+          }
+        },
+        {
+          "name": "projection-lower-bound-scope",
+          "pass": true,
+          "evidence": {
+            "disagreementDb": -12.15,
+            "lowerBoundDb": -18.17,
+            "residuals": {
+              "linearFitDb": -8.67,
+              "periodicFitResidual": 0.004,
+              "meanPeriodicity": 0.9963
+            },
+            "boundHolds": true
+          }
+        },
+        {
+          "name": "identifiable-consistency",
+          "pass": true,
+          "evidence": {
+            "candidateCount": 2,
+            "meanDivergenceDb": -25.25
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "width-harmonic-narrow",
+      "pair": "width-sweep-harmonic",
+      "identifiability": "identifiable",
+      "injectedFault": "false-confidence",
+      "expectation": {
+        "pass": true,
+        "failureCodes": []
+      },
+      "actual": {
+        "passed": true,
+        "failureCodes": [],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -41.60152716655681,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 2303
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -20.89
+        },
+        "divergence": {
+          "meanDb": 0,
+          "maxDb": 0,
+          "candidateCount": null
+        },
+        "projection": {
+          "disagreementDb": -12.15,
+          "lowerBoundDb": -18.17,
+          "periodicity": 0.9971,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 4.928e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -26.9,
+          "errBDb": -11.54,
+          "lowerBoundDb": -18.17,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -41.60152716655681,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 2303,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -20.89,
+            "toleranceDb": -8,
+            "targetPeak": 17.97
+          }
+        },
+        {
+          "name": "projection-lower-bound-scope",
+          "pass": true,
+          "evidence": {
+            "disagreementDb": -12.15,
+            "lowerBoundDb": -18.17,
+            "residuals": {
+              "linearFitDb": -8.67,
+              "periodicFitResidual": 0.004,
+              "meanPeriodicity": 0.9963
+            },
+            "boundHolds": true
+          }
+        },
+        {
+          "name": "identifiable-consistency",
+          "pass": true,
+          "evidence": {
+            "candidateCount": 1,
+            "meanDivergenceDb": 0
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "width-harmonic-narrow",
+      "pair": "width-sweep-harmonic",
+      "identifiability": "identifiable",
+      "injectedFault": "wrong-fill",
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "fill-inconsistency"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "fill-inconsistency"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -42.05618600019518,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 2303
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -3.64
+        },
+        "divergence": {
+          "meanDb": -25.25,
+          "maxDb": -25.25,
+          "candidateCount": null
+        },
+        "projection": {
+          "disagreementDb": -12.15,
+          "lowerBoundDb": -18.17,
+          "periodicity": 0.9971,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 4.928e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -26.9,
+          "errBDb": -11.54,
+          "lowerBoundDb": -18.17,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -42.05618600019518,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 2303,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": false,
+          "evidence": {
+            "fillResidualDb": -3.64,
+            "toleranceDb": -8,
+            "targetPeak": 17.97
+          }
+        },
+        {
+          "name": "projection-lower-bound-scope",
+          "pass": true,
+          "evidence": {
+            "disagreementDb": -12.15,
+            "lowerBoundDb": -18.17,
+            "residuals": {
+              "linearFitDb": -8.67,
+              "periodicFitResidual": 0.004,
+              "meanPeriodicity": 0.9963
+            },
+            "boundHolds": true
+          }
+        },
+        {
+          "name": "identifiable-consistency",
+          "pass": true,
+          "evidence": {
+            "candidateCount": 2,
+            "meanDivergenceDb": -25.25
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "width-harmonic-wide",
+      "pair": "width-sweep-harmonic",
+      "identifiability": "refused",
+      "injectedFault": null,
+      "expectation": {
+        "pass": true,
+        "failureCodes": []
+      },
+      "actual": {
+        "passed": true,
+        "failureCodes": [],
+        "status": "refused"
+      },
+      "evidence": {
+        "known": null,
+        "conservation": null,
+        "fill": null,
+        "divergence": null,
+        "projection": null,
+        "orthogonalitySplitRelativeError": 7.032e-16,
+        "outputUntouchedWhenRefused": true,
+        "scopeCheck": null
+      },
+      "checks": [
+        {
+          "name": "refusal-honest",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "fixtureId": "width-inharmonic-narrow",
+      "pair": "width-sweep-inharmonic",
+      "identifiability": "unidentifiable",
+      "injectedFault": null,
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "false-confidence"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "false-confidence"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -38.552583937093765,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 2303
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -12.12
+        },
+        "divergence": {
+          "meanDb": -3.87,
+          "maxDb": -3.87,
+          "candidateCount": 2
+        },
+        "projection": {
+          "disagreementDb": -2.93,
+          "lowerBoundDb": -8.95,
+          "periodicity": 0.4945,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 0,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -6.01,
+          "errBDb": -2.17,
+          "lowerBoundDb": -8.95,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -38.552583937093765,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 2303,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -12.12,
+            "toleranceDb": -8,
+            "targetPeak": 23.19
+          }
+        },
+        {
+          "name": "candidate-divergence",
+          "pass": true,
+          "evidence": {
+            "meanDivergenceDb": -3.87,
+            "maxDivergenceDb": -3.87,
+            "projectionDisagreementDb": -2.93,
+            "projectionLowerBoundDb": -8.95,
+            "candidateCount": 2,
+            "divergenceGateDb": -22
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "width-inharmonic-narrow",
+      "pair": "width-sweep-inharmonic",
+      "identifiability": "unidentifiable",
+      "injectedFault": "known-region-pollution",
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "known-pollution"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "known-pollution",
+          "conservation-breach",
+          "false-confidence"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -11.516701836065742,
+          "outsideWindowChangeDb": -11.32,
+          "changedSamples": 31093
+        },
+        "conservation": {
+          "worstConservationDb": -9.54,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -35.4
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -9.54
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -12.12
+        },
+        "divergence": {
+          "meanDb": -3.87,
+          "maxDb": -3.87,
+          "candidateCount": 2
+        },
+        "projection": {
+          "disagreementDb": -2.93,
+          "lowerBoundDb": -8.95,
+          "periodicity": 0.4945,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 0,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -6.01,
+          "errBDb": -2.17,
+          "lowerBoundDb": -8.95,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": false,
+          "evidence": {
+            "observedChangeDb": -11.516701836065742,
+            "outsideWindowChangeDb": -11.32,
+            "changedSamples": 31093,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": false,
+          "evidence": {
+            "worstConservationDb": -9.54,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -35.4
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -9.54
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -12.12,
+            "toleranceDb": -8,
+            "targetPeak": 23.19
+          }
+        },
+        {
+          "name": "candidate-divergence",
+          "pass": true,
+          "evidence": {
+            "meanDivergenceDb": -3.87,
+            "maxDivergenceDb": -3.87,
+            "projectionDisagreementDb": -2.93,
+            "projectionLowerBoundDb": -8.95,
+            "candidateCount": 2,
+            "divergenceGateDb": -22
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "width-inharmonic-narrow",
+      "pair": "width-sweep-inharmonic",
+      "identifiability": "unidentifiable",
+      "injectedFault": "false-confidence",
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "false-confidence"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "false-confidence"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -38.552583937093765,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 2303
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -12.12
+        },
+        "divergence": {
+          "meanDb": 0,
+          "maxDb": 0,
+          "candidateCount": 1
+        },
+        "projection": {
+          "disagreementDb": -2.93,
+          "lowerBoundDb": -8.95,
+          "periodicity": 0.4945,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 0,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -6.01,
+          "errBDb": -2.17,
+          "lowerBoundDb": -8.95,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -38.552583937093765,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 2303,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -12.12,
+            "toleranceDb": -8,
+            "targetPeak": 23.19
+          }
+        },
+        {
+          "name": "candidate-divergence",
+          "pass": true,
+          "evidence": {
+            "meanDivergenceDb": 0,
+            "maxDivergenceDb": 0,
+            "projectionDisagreementDb": -2.93,
+            "projectionLowerBoundDb": -8.95,
+            "candidateCount": 1,
+            "divergenceGateDb": -22
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "width-inharmonic-narrow",
+      "pair": "width-sweep-inharmonic",
+      "identifiability": "unidentifiable",
+      "injectedFault": "wrong-fill",
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "fill-inconsistency"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "fill-inconsistency",
+          "false-confidence"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -35.91652522483461,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 2303
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -3.83
+        },
+        "divergence": {
+          "meanDb": -3.87,
+          "maxDb": -3.87,
+          "candidateCount": 2
+        },
+        "projection": {
+          "disagreementDb": -2.93,
+          "lowerBoundDb": -8.95,
+          "periodicity": 0.4945,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 0,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -6.01,
+          "errBDb": -2.17,
+          "lowerBoundDb": -8.95,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -35.91652522483461,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 2303,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": false,
+          "evidence": {
+            "fillResidualDb": -3.83,
+            "toleranceDb": -8,
+            "targetPeak": 23.19
+          }
+        },
+        {
+          "name": "candidate-divergence",
+          "pass": true,
+          "evidence": {
+            "meanDivergenceDb": -3.87,
+            "maxDivergenceDb": -3.87,
+            "projectionDisagreementDb": -2.93,
+            "projectionLowerBoundDb": -8.95,
+            "candidateCount": 2,
+            "divergenceGateDb": -22
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "width-inharmonic-wide",
+      "pair": "width-sweep-inharmonic",
+      "identifiability": "refused",
+      "injectedFault": null,
+      "expectation": {
+        "pass": true,
+        "failureCodes": []
+      },
+      "actual": {
+        "passed": true,
+        "failureCodes": [],
+        "status": "refused"
+      },
+      "evidence": {
+        "known": null,
+        "conservation": null,
+        "fill": null,
+        "divergence": null,
+        "projection": null,
+        "orthogonalitySplitRelativeError": 2.285e-16,
+        "outputUntouchedWhenRefused": true,
+        "scopeCheck": null
+      },
+      "checks": [
+        {
+          "name": "refusal-honest",
+          "pass": true
+        }
+      ]
+    },
+    {
+      "fixtureId": "prior-mismatch-noise",
+      "pair": "prior-violation",
+      "identifiability": "unidentifiable",
+      "injectedFault": null,
+      "expectation": {
+        "pass": true,
+        "failureCodes": []
+      },
+      "actual": {
+        "passed": true,
+        "failureCodes": [],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -34.870924258543795,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 2815
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -13.62
+        },
+        "divergence": {
+          "meanDb": -2.35,
+          "maxDb": 1.36,
+          "candidateCount": 5
+        },
+        "projection": {
+          "disagreementDb": -5.51,
+          "lowerBoundDb": -11.54,
+          "periodicity": 0.8098,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 1.161e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -0.48,
+          "errBDb": -1.14,
+          "lowerBoundDb": -11.54,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -34.870924258543795,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 2815,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -13.62,
+            "toleranceDb": -8,
+            "targetPeak": 24.77
+          }
+        },
+        {
+          "name": "candidate-divergence",
+          "pass": true,
+          "evidence": {
+            "meanDivergenceDb": -2.35,
+            "maxDivergenceDb": 1.36,
+            "projectionDisagreementDb": -5.51,
+            "projectionLowerBoundDb": -11.54,
+            "candidateCount": 5,
+            "divergenceGateDb": -22
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "prior-mismatch-noise",
+      "pair": "prior-violation",
+      "identifiability": "unidentifiable",
+      "injectedFault": "known-region-pollution",
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "known-pollution"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "known-pollution",
+          "conservation-breach"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -7.579139955799277,
+          "outsideWindowChangeDb": -7.56,
+          "changedSamples": 34293
+        },
+        "conservation": {
+          "worstConservationDb": -3.13,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -42.06
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -3.13
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -13.62
+        },
+        "divergence": {
+          "meanDb": -2.35,
+          "maxDb": 1.36,
+          "candidateCount": 5
+        },
+        "projection": {
+          "disagreementDb": -5.51,
+          "lowerBoundDb": -11.54,
+          "periodicity": 0.8098,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 1.161e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -0.48,
+          "errBDb": -1.14,
+          "lowerBoundDb": -11.54,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": false,
+          "evidence": {
+            "observedChangeDb": -7.579139955799277,
+            "outsideWindowChangeDb": -7.56,
+            "changedSamples": 34293,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": false,
+          "evidence": {
+            "worstConservationDb": -3.13,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -42.06
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -3.13
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -13.62,
+            "toleranceDb": -8,
+            "targetPeak": 24.77
+          }
+        },
+        {
+          "name": "candidate-divergence",
+          "pass": true,
+          "evidence": {
+            "meanDivergenceDb": -2.35,
+            "maxDivergenceDb": 1.36,
+            "projectionDisagreementDb": -5.51,
+            "projectionLowerBoundDb": -11.54,
+            "candidateCount": 5,
+            "divergenceGateDb": -22
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "prior-mismatch-noise",
+      "pair": "prior-violation",
+      "identifiability": "unidentifiable",
+      "injectedFault": "false-confidence",
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "false-confidence"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "false-confidence"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -34.870924258543795,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 2815
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -13.62
+        },
+        "divergence": {
+          "meanDb": 0,
+          "maxDb": 0,
+          "candidateCount": 1
+        },
+        "projection": {
+          "disagreementDb": -5.51,
+          "lowerBoundDb": -11.54,
+          "periodicity": 0.8098,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 1.161e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -0.48,
+          "errBDb": -1.14,
+          "lowerBoundDb": -11.54,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -34.870924258543795,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 2815,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": true,
+          "evidence": {
+            "fillResidualDb": -13.62,
+            "toleranceDb": -8,
+            "targetPeak": 24.77
+          }
+        },
+        {
+          "name": "candidate-divergence",
+          "pass": true,
+          "evidence": {
+            "meanDivergenceDb": 0,
+            "maxDivergenceDb": 0,
+            "projectionDisagreementDb": -5.51,
+            "projectionLowerBoundDb": -11.54,
+            "candidateCount": 1,
+            "divergenceGateDb": -22
+          }
+        }
+      ]
+    },
+    {
+      "fixtureId": "prior-mismatch-noise",
+      "pair": "prior-violation",
+      "identifiability": "unidentifiable",
+      "injectedFault": "wrong-fill",
+      "expectation": {
+        "pass": false,
+        "failureCodes": [
+          "fill-inconsistency"
+        ]
+      },
+      "actual": {
+        "passed": false,
+        "failureCodes": [
+          "fill-inconsistency"
+        ],
+        "status": "ok"
+      },
+      "evidence": {
+        "known": {
+          "observedChangeDb": -34.936523364043204,
+          "outsideWindowChangeDb": -300,
+          "changedSamples": 2815
+        },
+        "conservation": {
+          "worstConservationDb": -300,
+          "compartments": [
+            {
+              "name": "timeRef",
+              "conservationDb": -300
+            },
+            {
+              "name": "freqRef",
+              "conservationDb": -300
+            }
+          ]
+        },
+        "fill": {
+          "fillResidualDb": -3.72
+        },
+        "divergence": {
+          "meanDb": -2.35,
+          "maxDb": 1.36,
+          "candidateCount": 5
+        },
+        "projection": {
+          "disagreementDb": -5.51,
+          "lowerBoundDb": -11.54,
+          "periodicity": 0.8098,
+          "boundHolds": true
+        },
+        "orthogonalitySplitRelativeError": 1.161e-16,
+        "outputUntouchedWhenRefused": null,
+        "scopeCheck": {
+          "errADb": -0.48,
+          "errBDb": -1.14,
+          "lowerBoundDb": -11.54,
+          "boundHolds": true,
+          "informative": true,
+          "scopeNote": "projections disagree: bound certifies real uncertainty"
+        }
+      },
+      "checks": [
+        {
+          "name": "known-region-error",
+          "pass": true,
+          "evidence": {
+            "observedChangeDb": -34.936523364043204,
+            "outsideWindowChangeDb": -300,
+            "changedSamples": 2815,
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "subband-conservation",
+          "pass": true,
+          "evidence": {
+            "worstConservationDb": -300,
+            "compartments": [
+              {
+                "name": "timeRef",
+                "conservationDb": -300
+              },
+              {
+                "name": "freqRef",
+                "conservationDb": -300
+              }
+            ],
+            "toleranceDb": -30
+          }
+        },
+        {
+          "name": "fill-consistency",
+          "pass": false,
+          "evidence": {
+            "fillResidualDb": -3.72,
+            "toleranceDb": -8,
+            "targetPeak": 24.77
+          }
+        },
+        {
+          "name": "candidate-divergence",
+          "pass": true,
+          "evidence": {
+            "meanDivergenceDb": -2.35,
+            "maxDivergenceDb": 1.36,
+            "projectionDisagreementDb": -5.51,
+            "projectionLowerBoundDb": -11.54,
+            "candidateCount": 5,
+            "divergenceGateDb": -22
+          }
+        }
+      ]
+    }
+  ]
+}

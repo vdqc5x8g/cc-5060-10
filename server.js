@@ -2,10 +2,13 @@ import http from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { completeBands } from './src/kernel/complete.js';
+import { completeBands, reconstructConstrained, analyzeAudio } from './src/kernel/complete.js';
 import { evaluateCompletion } from './src/eval/evaluate.js';
 import { decodeWav, encodeWavPcm16, toBase64, fromBase64 } from './src/kernel/wav.js';
 import { buildFixtures, FIXTURE_DEFS } from './src/fixtures/generate.js';
+import { buildTrustFixtures, TRUST_DEFS } from './src/trust/fixtures-trust.js';
+import { runTrustVerification } from './src/trust/runner.js';
+import { polluteKnownRegion, injectOverconfidence, injectWrongFill } from './src/trust/faults.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(__dirname, 'public');
@@ -15,7 +18,12 @@ const fixtures = new Map();
 for (const fx of buildFixtures()) {
   fixtures.set(fx.id, fx);
 }
+const trustFixtures = new Map();
+for (const fx of buildTrustFixtures()) {
+  trustFixtures.set(fx.id, fx);
+}
 console.log(`[bench] fixtures ready: ${[...fixtures.keys()].join(', ')}`);
+console.log(`[bench] trust fixtures ready: ${[...trustFixtures.keys()].join(', ')}`);
 
 function json(res, status, body) {
   const data = JSON.stringify(body);
@@ -217,22 +225,53 @@ const server = http.createServer(async (req, res) => {
       }
       if (!Number.isFinite(sampleRate) || sampleRate < 4000) return json(res, 400, { error: 'unsupported sample rate' });
       const parsedRegions = parseRegions(regions);
+      const includeCandidates = body.includePreviewAudio !== false;
       const result = completeBands({
         audio,
         sampleRate,
         regions: parsedRegions,
-        includePreviewAudio: Boolean(body.includePreviewAudio),
+        includePreviewAudio: includeCandidates,
         options: options ?? {},
       });
       const outBytes = encodeWavPcm16(result.audio, sampleRate);
       const before = await magnitudeFromAudio(audio, sampleRate);
       const after = await magnitudeFromAudio(result.audio, sampleRate);
+      // Materialize a real reconstructed WAV per candidate so the UI can do an
+      // honest A/B: every candidate waveform comes from reconstructConstrained
+      // with that candidate's own target grid, never from a shared fixed clip.
+      const candidateWavs = [];
+      if (includeCandidates) {
+        const { spec } = analyzeAudio(audio, { sampleRate, fftSize: result.specMeta.fftSize, hop: result.specMeta.hop });
+        for (const region of result.report.regions) {
+          if (region.status !== 'completed') continue;
+          const g = region.geometry;
+          for (const cand of region.candidates) {
+            const fullTarget = result.target.map((row) => Float64Array.from(row));
+            if (cand.id !== region.selectedCandidate) {
+              for (let y = 0; y < cand.grid.height; y++) {
+                for (let x = 0; x < cand.grid.width; x++) {
+                  fullTarget[g.frameStart + y][g.binStart + x] = cand.grid.target[y][x];
+                }
+              }
+            }
+            const recon = reconstructConstrained({
+              spec, mask: result.mask, target: fullTarget, iterations: 24,
+            });
+            candidateWavs.push({
+              regionIndex: result.report.regions.indexOf(region),
+              candidateId: cand.id,
+              wavBase64: toBase64(encodeWavPcm16(recon.audio, sampleRate)),
+            });
+          }
+        }
+      }
       const payload = {
         report: serializeReport(result.report, sampleRate),
         mask: serializeMask(result.mask),
         target: serializeGrid(result.target),
         confidence: serializeGrid(result.confidence),
         audioWav: toBase64(outBytes),
+        candidateWavs,
         defectiveWav: toBase64(encodeWavPcm16(audio, sampleRate)),
         spectrograms: {
           before: displaySpectrogram(before.spec, before.grid),
@@ -270,8 +309,83 @@ const server = http.createServer(async (req, res) => {
       }
       return json(res, 200, payload);
     }
+    if (req.method === 'GET' && url.pathname === '/api/trust/fixtures') {
+      return json(res, 200, {
+        fixtures: [...trustFixtures.values()].map((fx) => ({
+          id: fx.id,
+          title: fx.title,
+          description: fx.description,
+          pair: fx.pair,
+          kind: fx.kind,
+          identifiability: fx.identifiability,
+          sampleRate: fx.sampleRate,
+          region: fx.region,
+        })),
+      });
+    }
+    if (req.method === 'GET' && url.pathname === '/api/trust/fixture') {
+      const id = url.searchParams.get('id');
+      const fx = trustFixtures.get(id);
+      if (!fx) return json(res, 404, { error: 'unknown trust fixture' });
+      const defect = await magnitudeFromAudio(fx.defective, fx.sampleRate);
+      return json(res, 200, {
+        id: fx.id,
+        title: fx.title,
+        description: fx.description,
+        pair: fx.pair,
+        kind: fx.kind,
+        identifiability: fx.identifiability,
+        sampleRate: fx.sampleRate,
+        region: fx.region,
+        defectiveWav: toBase64(fx.defectiveWav),
+        spectrogram: displaySpectrogram(defect.spec, defect.grid),
+      });
+    }
+    if (req.method === 'POST' && url.pathname === '/api/trust/verify') {
+      const body = JSON.parse((await readBody(req)).toString('utf8'));
+      const fx = trustFixtures.get(body.fixtureId);
+      if (!fx) return json(res, 404, { error: 'unknown trust fixture' });
+      const fault = body.fault ?? null;
+      const allowed = [null, 'known-region-pollution', 'false-confidence', 'wrong-fill'];
+      if (!allowed.includes(fault)) return json(res, 400, { error: 'unsupported fault' });
+      let overrides = { withTruth: false };
+      if (fault) {
+        const result = completeBands({
+          audio: fx.defective, sampleRate: fx.sampleRate, fftSize: fx.fftSize, hop: fx.hop,
+          regions: [{ ...fx.region }], options: {},
+        });
+        if (fault === 'known-region-pollution') {
+          overrides = {
+            fault,
+            polluted: polluteKnownRegion({
+              reconstructed: result.audio, mask: result.mask, grid: fx.grid,
+              fftSize: fx.fftSize, hop: fx.hop, sampleRate: fx.sampleRate,
+            }),
+          };
+        } else if (fault === 'false-confidence') {
+          const mutated = injectOverconfidence(result.report);
+          overrides = {
+            fault,
+            overconfidentReport: mutated.report,
+            mask: result.mask,
+            target: result.target,
+            attributedFrames: result.attributedFrames,
+          };
+        } else {
+          overrides = {
+            fault,
+            wrongFill: injectWrongFill({
+              reconstructed: result.audio, mask: result.mask,
+              fftSize: fx.fftSize, hop: fx.hop, sampleRate: fx.sampleRate,
+            }),
+          };
+        }
+      }
+      const out = runTrustVerification(fx, overrides);
+      return json(res, 200, sanitizeTrustResult(out));
+    }
     if (req.method === 'GET' && url.pathname === '/api/health') {
-      return json(res, 200, { ok: true, fixtures: FIXTURE_DEFS.length });
+      return json(res, 200, { ok: true, fixtures: FIXTURE_DEFS.length, trustFixtures: TRUST_DEFS.length });
     }
     if (req.method === 'GET') {
       let safePath = path.normalize(url.pathname).replace(/^(\.\.[/\\])+/, '');
@@ -320,6 +434,14 @@ function serializeGrid(grid) {
     }
     return out;
   });
+}
+
+// Strip any truth-aware scope fields and audio buffers; the browser only needs
+// verdict + independent evidence, never the withheld truth track.
+function sanitizeTrustResult(out) {
+  const clone = structuredClone(out);
+  delete clone.scopeCheck;
+  return clone;
 }
 
 function serializeReport(report, sampleRate) {

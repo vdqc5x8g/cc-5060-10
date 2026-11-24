@@ -163,3 +163,27 @@ main { max-width: 1280px; margin: 0 auto; padding: 18px; display: grid; gap: 16p
   .matrix-row { grid-template-columns: 1fr; }
   main { padding: 12px; }
 }
+
+.trust-panel .trust-output { margin-top: 12px; display: grid; gap: 8px; }
+.trust-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.trust-check {
+  font-size: 12px; padding: 6px 10px; border: 1px solid var(--line);
+  border-radius: 8px; background: var(--panel-2); display: grid; gap: 2px;
+}
+.trust-check.good { border-color: rgba(90,208,192,.4); }
+.trust-check.bad { border-color: rgba(239,107,107,.5); }
+.trust-check .small { color: var(--muted); font-size: 10px; word-break: break-all; }
+.trust-evidence {
+  font-size: 12px; color: var(--muted); display: grid; gap: 4px;
+  padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-2);
+  font-variant-numeric: tabular-nums;
+}
+.trust-evidence .good, .trust-output .good { color: var(--accent); }
+.trust-output .bad { color: var(--danger); }
+.trust-output .warn { color: var(--warn); }
+.trust-failure { font-size: 12px; color: var(--danger); }
+.trust-row {
+  display: flex; justify-content: space-between; gap: 10px; font-size: 12px;
+  padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-2);
+}
+.cand-ab { margin-top: 6px; }
